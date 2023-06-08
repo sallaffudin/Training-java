@@ -56,3 +56,81 @@
 	
 </body>
 </html>
+
+
+// Simpan data yang telah disubmit secara lokal (dapat menggunakan variable Array)
+let submittedData = [];
+
+// Validasi input tidak boleh kosong pada tiap inputan (tidak boleh menggunakan attribute required)
+function validateInput() {
+  let name = document.getElementById('name').value;
+  let email = document.getElementById('email').value;
+  let position = document.getElementById('position').value;
+
+  if (name === '' || email === '' || position === '') {
+    alert('Mohon lengkapi semua field input.');
+    return false;
+  }
+
+  return true;
+}
+
+// Validasi pada input email jika email yang diinputkan sudah terdaftar.
+function isEmailRegistered(email) {
+  // Kode untuk memeriksa apakah email sudah terdaftar
+  // Mengembalikan true jika email sudah terdaftar, false jika belum terdaftar
+  return false;
+}
+
+// Validasi kuota yang tersedia untuk masing-masing lowongan
+function validateQuota(position) {
+  let quota = {
+    'System Administrator': 1,
+    'Programmer': 2,
+    'Technical Writer': 3
+  };
+
+  if (quota[position] > 0) {
+    if (quota[position] <= 2) {
+      alert(`Kuota tersisa untuk ${position} hanya 2 pendaftar.`);
+    } else {
+      alert(`Anda dapat memilih lowongan ${position}.`);
+    }
+    quota[position]--;
+  } else {
+    alert(`Mohon maaf, rekrutasi untuk ${position} sudah penuh dan tidak dapat dipilih.`);
+    return false;
+  }
+
+  return true;
+}
+
+// Tampilkan notifikasi jumlah pendaftar setelah melakukan submit
+function showApplicantCount(position) {
+  let count = 0;
+  for (let i = 0; i < submittedData.length; i++) {
+    if (submittedData[i].position === position) {
+      count++;
+    }
+  }
+  alert(`Jumlah pendaftar untuk ${position}: ${count}`);
+}
+
+// Submit form
+function submitForm() {
+  if (validateInput()) {
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let position = document.getElementById('position').value;
+
+    if (isEmailRegistered(email)) {
+      alert('Email yang Anda masukkan sudah terdaftar.');
+      return;
+    }
+
+    if (validateQuota(position)) {
+      submittedData.push({ name, email, position });
+      showApplicantCount(position);
+    }
+  }
+}
